@@ -1,0 +1,57 @@
+<?php
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+
+// $hostname = 'mysql-127495-0.cloudclusters.net';
+// $username = 'zz';
+// $password = 'v89RrkVw';
+// $database = 'vitals';
+// $table = 'vital_signs2';
+// $port = '14321';
+
+$hostname = 'mysql-134227-0.cloudclusters.net';
+$username = 'admin';
+$password = '4kXSHsZC';
+$database = 'vitalsDB';
+$table = 'vitals2';
+
+// Create MySQL connection
+$connection = mysqli_connect($hostname, $username, $password, $database,16063);
+
+if (!$connection) {
+  die('Failed to connect to MySQL: ' . mysqli_connect_error());
+}
+
+$caretaker_id = $_POST['caretaker_id'];
+
+// Execute MySQL query
+$query = "SELECT v.*
+FROM vitals2 v
+JOIN (
+  SELECT p.device_id, MAX(v.created_date) AS latest_date
+  FROM patients p
+  JOIN caretakers c ON p.patient_id = c.patient_id
+  JOIN vitals2 v ON p.device_id = v.di
+  WHERE c.caretaker_id = $caretaker_id
+  GROUP BY p.device_id
+) subquery
+ON v.di = subquery.device_id AND v.created_date = subquery.latest_date";
+$result = mysqli_query($connection, $query);
+
+if (!$result) {
+  die('Failed to retrieve data from MySQL: ' . mysqli_error($connection));
+}
+
+// Fetch data and encode as JSON
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+  $data[] = $row;
+}
+$json = json_encode($data);
+
+// Close MySQL connection
+mysqli_close($connection);
+
+// Output JSON response
+echo $json;
+?>
