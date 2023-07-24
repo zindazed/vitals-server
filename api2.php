@@ -3,13 +3,14 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 // Database connection configuration
 
-$servername = "mysql-134227-0.cloudclusters.net";
+$servername = "mysql-135911-0.cloudclusters.net";
 $username = "admin";
-$password = "4kXSHsZC";
-$dbname = "vitalsDB";
+$password = "zYCCq3G7";
+$dbname = "PatientVitalsDB";
+$table = 'Vitals2';
 
 // Establish database connection
-$conn = new mysqli($servername, $username, $password, $dbname,16063);
+$conn = new mysqli($servername, $username, $password, $dbname,19993);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }

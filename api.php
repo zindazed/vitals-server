@@ -9,14 +9,14 @@ header('Content-Type: application/json');
 // $table = 'vital_signs2';
 // $port = '14321';
 
-$hostname = 'mysql-134227-0.cloudclusters.net';
+$hostname = 'mysql-135911-0.cloudclusters.net';
 $username = 'admin';
-$password = '4kXSHsZC';
-$database = 'vitalsDB';
-$table = 'vitals2';
+$password = 'zYCCq3G7';
+$database = 'PatientVitalsDB';
+$table = 'Vitals2';
 
 // Create MySQL connection
-$connection = mysqli_connect($hostname, $username, $password, $database,16063);
+$connection = mysqli_connect($hostname, $username, $password, $database,19993);
 
 if (!$connection) {
   die('Failed to connect to MySQL: ' . mysqli_connect_error());
@@ -26,12 +26,12 @@ $caretaker_id = $_POST['caretaker_id'];
 
 // Execute MySQL query
 $query = "SELECT v.*
-FROM vitals2 v
+FROM Vitals2 v
 JOIN (
   SELECT p.device_id, MAX(v.created_date) AS latest_date
   FROM patients p
   JOIN caretakers c ON p.patient_id = c.patient_id
-  JOIN vitals2 v ON p.device_id = v.di
+  JOIN Vitals2 v ON p.device_id = v.di
   WHERE c.caretaker_id = $caretaker_id
   GROUP BY p.device_id
 ) subquery

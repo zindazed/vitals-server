@@ -23,21 +23,7 @@ if (!$connection) {
 }
 
 // Execute MySQL query
-$query = "SELECT *
-FROM users
-WHERE user_id IN (
-SELECT p.patient_id
-FROM patients p
-WHERE device_id IN (
-  SELECT v.di
-  FROM Vitals2 v
-  JOIN (
-    SELECT di, MAX(created_date) AS latest_date
-    FROM Vitals2
-    GROUP BY di
-  ) subquery
-  ON v.di = subquery.di AND v.created_date = subquery.latest_date
-))";
+$query = "SELECT *FROM `Vitals2`WHERE `created_date` >= DATE_SUB(NOW(), INTERVAL 1 DAY) ORDER BY created_date DESC";
 $result = mysqli_query($connection, $query);
 
 if (!$result) {

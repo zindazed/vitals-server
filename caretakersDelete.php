@@ -9,14 +9,14 @@ header('Content-Type: application/json');
 // $table = 'vital_signs2';
 // $port = '14321';
 
-$hostname = 'mysql-134227-0.cloudclusters.net';
+$hostname = 'mysql-135911-0.cloudclusters.net';
 $username = 'admin';
-$password = '4kXSHsZC';
-$database = 'vitalsDB';
-$table = 'vitals2';
+$password = 'zYCCq3G7';
+$database = 'PatientVitalsDB';
+$table = 'Vitals2';
 
 // Create MySQL connection
-$mysqli = new mysqli($hostname, $username, $password, $database,16063);
+$mysqli = new mysqli($hostname, $username, $password, $database,19993);
 
 if ($mysqli->connect_errno) {
   die("Failed to connect to MySQL: " . $mysqli->connect_error);

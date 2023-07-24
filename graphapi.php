@@ -1,13 +1,14 @@
 <?php
 // Database connection configuration
 
-$hostname = 'mysql-134227-0.cloudclusters.net';
+$hostname = 'mysql-135911-0.cloudclusters.net';
 $username = 'admin';
-$password = '4kXSHsZC';
-$database = 'vitalsDB';
+$password = 'zYCCq3G7';
+$database = 'PatientVitalsDB';
+$table = 'Vitals2';
 
 // Establish database connection
-$connection = new mysqli($hostname, $username, $password, $database,16063);
+$connection = new mysqli($hostname, $username, $password, $database,19993);
 
 if ($connection->connect_error) {
   die("Connection failed: " . $conn->connect_error);
@@ -23,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['interval'] == 'seconds' ) {
                 FROM (
                 SELECT *,
                 ROW_NUMBER() OVER (PARTITION BY DATE_FORMAT(created_date, '%Y-%m-%d %H:%i:%s') ORDER BY created_date DESC) AS row_num
-                FROM vitals2
+                FROM Vitals2
                 ) AS subquery
                 WHERE row_num = 1 AND di = $device_id
                 ORDER BY created_date DESC
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['interval'] == 'minutes' ) {
             FROM (
             SELECT *,
             ROW_NUMBER() OVER (PARTITION BY DATE_FORMAT(created_date, '%Y-%m-%d %H:%i') ORDER BY created_date DESC) AS row_num
-            FROM vitals2
+            FROM Vitals2
             ) AS subquery
             WHERE row_num = 1 AND di = $device_id
             ORDER BY created_date DESC
@@ -85,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['interval'] == 'hours' ) {
     FROM (
       SELECT *,
         ROW_NUMBER() OVER (PARTITION BY DATE_FORMAT(created_date, '%Y-%m-%d %H') ORDER BY created_date DESC) AS row_num
-      FROM vitals2
+      FROM Vitals2
     ) AS subquery
     WHERE row_num = 1 AND di = $device_id
     ORDER BY created_date DESC
@@ -116,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['interval'] == 'days' ) {
     FROM (
       SELECT *,
         ROW_NUMBER() OVER (PARTITION BY DATE_FORMAT(created_date, '%Y-%m-%d') ORDER BY created_date DESC) AS row_num
-      FROM vitals2
+      FROM Vitals2
     ) AS subquery
     WHERE row_num = 1 AND di = $device_id
     ORDER BY created_date DESC
